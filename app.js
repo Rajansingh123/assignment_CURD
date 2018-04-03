@@ -37,12 +37,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-//moongodb require
-var mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://localhost/product')
-    .then(() =>  console.log('connection succesful'))
-.catch((err) => console.error(err));
 
 module.exports = app;

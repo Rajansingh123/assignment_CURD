@@ -37,6 +37,20 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 
+mongoose.connect('mongodb://localhost/node-auth')
+    .then(() =>  console.log('connection succesful'))
+.catch((err) => console.error(err));
+
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
+var User = require('./models/user');
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 module.exports = app;
+
